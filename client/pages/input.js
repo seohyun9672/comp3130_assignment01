@@ -2,28 +2,19 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [notes, setNotes] = useState([]);
   const [date, setDate] = useState('')
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
   const [num, setNum] = useState(1);
-  const [data, setData] = useState("name");
+  const [names, setNames] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [header, setHeader] = useState("name")
 
   const r = useRouter();
+
   useEffect(() => {
-    fetch(`http://localhost:3001/get-names`).then(async (res) => {
-      const data = await res.json()
-      setNotes(data.notes);
-    });
-  })
-
-  // useEffect(() => {
-  //   r.push("/input");
-  // }, []);
-
-  // useEffect(() => {
-  //   setNum((num) => num + 1);
-  // });
+    setType("text")
+  }, []);
 
   const updateName = (e) => {
     setName(e.target.value);
@@ -33,52 +24,57 @@ export default function Home() {
     setDate(e.target.value);
   }
 
-  const addName = () => {
-    // setNotes([...notes, note]);
+  const addUsers = () => {
+    fetch(`http://localhost:3001/add-user?name=${name}?date=${date}`)
+    .then(async (res) => console.log(await res.json()))
+  }
 
-    //sending note to backend
-    fetch(`http://localhost:3001/user-name?name=${name}`).then(async (res) => console.log(await res.json()));
 
-    //emptying the note to clear it out
+  const addToNames = () => {
+    // add single note to front end names array/state
+    setNames([...names, name])
+
+    // now send note to backend
+    fetch(`http://localhost:3001/add-name?name=${name}`)
+      .then(async (res) => console.log(await res.json()))
+
+    // clear note 
     setName('')
-
-    console.log(name);
-
   };
 
-  const addDate = () => {
-    // setNotes([...notes, note]);
+  const addToDates = () => {
+    // add single note to front end names array/state
+    setDates([...dates, date])
+    
 
-    //sending note to backend
-    fetch(`http://localhost:3001/user-date?date=${date}`).then(async (res) => console.log(await res.json()));
+    // now send note to backend
+    fetch(`http://localhost:3001/add-dob?dob=${date}`)
+      .then(async (res) => console.log(await res.json()));
 
-    //emptying the note to clear it out
+    // clear note 
     setDate('')
-
-    console.log(date);
-
-  };
+  }
 
   return (
     <div>
-      <h1>Enter your {data}</h1>
-      <input type={type} value={name} onChange={type === "text" ? updateName : updateDate} />
+      <h1>Enter your {header}</h1>
+      <input type={type} value={name} onChange={num === 1 ? updateName : updateDate} />
       <div>
         <button onClick={() => r.back()}>Back</button>
         {num === 1 ? <button
           onClick={
             () => {
+              setHeader("date")
               setType("date")
-              addName()
               setNum((num) => num + 1);
-              setData("date")
+              addToNames()
             }
           }
         >Continue</button> : <button
           onClick={
             () => {
-              r.push('/result')
-              addDate();
+              // r.push('/result')
+              addToDates()
             }
           }
         >Continue</button>}
