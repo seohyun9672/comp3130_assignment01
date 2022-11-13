@@ -9,8 +9,7 @@ db.run(
   `CREATE TABLE IF NOT EXISTS UserInfo (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         FirstName varchar(25),
-        DOB DATE,
-        PRIMARY KEY (id)
+        DOB DATE
       )`
 );
 db.run(
