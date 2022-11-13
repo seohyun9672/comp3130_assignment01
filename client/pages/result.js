@@ -4,13 +4,25 @@ export default function Result() {
 
   const [signs, setSigns] = useState([]);
   const [sign, setSign] = useState('');
+
+  const [names, setNames] = useState([]);
   const [name, setName] = useState('');
+
   // const r = useRouter();
+
+  useEffect(() => {
+    // get current names from backend
+    fetch('http://localhost:3001/get-name')
+      .then(async (res) => {
+        const data = await res.json();
+        var nameArr = data.names
+        let name = nameArr.slice(-1);
+        setName(name)
+      })
+  });
 
   return <div>
     <h1>{name},</h1>
-    <button onClick={console.log(signs)}></button>
-
     {
       signs.map((data) => {
         <div>
