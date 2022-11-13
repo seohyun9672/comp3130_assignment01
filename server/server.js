@@ -9,12 +9,13 @@ app.use(express.json());
 
 let names = [];
 let dobs = [];
+let signs = [];
 
 app.get("/add-user", (req, res) => {
   const name = req.query.name;
   const dob = req.query.dob;
 
-  if (!name || !dob) return res.end("please provide name");
+  if (!name || !dob) return res.end("please provide name and date of birth");
   db.run("INSERT INTO UserInfo (FirstName, DOB) VALUES (?, ?)", [name, dob]);
 
   names.push(name);
@@ -37,21 +38,20 @@ app.get("/userinfo", (req, res) => {
   res.json({ message: "data shown" })
 });
 
-// // Route to get all signs info
-// app.get("/get-result", (req, res) => {
-//   db.each("SELECT * FROM ZodiacSigns", (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     res.send(result);
-//   });
-// });
+// Route to get all signs info
+app.get("/get-signs", (req, res) => {
+  // this reads all data from ZodiacSigns table
+  db.each(`SELECT * FROM ZodiacSigns WHERE id = 1`, (err, result) => {
+    console.log(result);
+    signs.push(result);
+
+  });
+  res.json({ signs })
+});
 
 app.get('/get-result', (req, res) => {
   res.json({ signs })
 });
-
-
 
 //this is just for me for ref
 // Route to get one post
