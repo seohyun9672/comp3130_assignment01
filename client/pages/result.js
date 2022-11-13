@@ -13,6 +13,9 @@ export default function Result() {
 
   const r = useRouter();
 
+  const dateNum = dob.replaceAll("-", "");
+  const monthDay = dateNum.slice(-4);
+  
   useEffect(() => {
     // get current names from backend
     fetch('http://localhost:3001/get-name')
@@ -23,6 +26,8 @@ export default function Result() {
         setName(name);
       });
   });
+    changeSign();
+  // }, []);
 
   // this is only for the display purpose
   useEffect(() => {
@@ -55,6 +60,12 @@ export default function Result() {
         setDescription(Description)
       });
   };
+  // useEffect(() => {
+  //   // Axios.get("http://localhost:3001/get-signs").then((response) => {
+  //   //   setAllSigns(response);
+  //   // });
+  //   // let signData = allSigns.find((o) => o.SignName === sign);
+  // });
 
   return <div>
     <button onClick={() => {
