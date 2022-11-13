@@ -2,58 +2,39 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [date, setDate] = useState('')
+  const [dob, setDob] = useState()
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
   const [num, setNum] = useState(1);
   const [names, setNames] = useState([]);
-  const [dates, setDates] = useState([]);
+  const [dobs, setDobs] = useState([]);
   const [header, setHeader] = useState("name")
 
   const r = useRouter();
 
   useEffect(() => {
-    setType("text")
+    setType("text");
   }, []);
 
   const updateName = (e) => {
     setName(e.target.value);
-  }
-
-  const updateDate = (e) => {
-    setDate(e.target.value);
-  }
-
-  const addUsers = () => {
-    fetch(`http://localhost:3001/add-user?name=${name}?date=${date}`)
-    .then(async (res) => console.log(await res.json()))
-  }
-
-
-  const addToNames = () => {
-    // add single note to front end names array/state
-    setNames([...names, name])
-
-    // now send note to backend
-    fetch(`http://localhost:3001/add-name?name=${name}`)
-      .then(async (res) => console.log(await res.json()))
-
-    // clear note 
-    setName('')
   };
 
-  const addToDates = () => {
-    // add single note to front end names array/state
-    setDates([...dates, date])
-    
+  const updateDate = (e) => {
+    setDob(e.target.value);
+    console.log(e.target.value);
+  };
 
-    // now send note to backend
-    fetch(`http://localhost:3001/add-dob?dob=${date}`)
-      .then(async (res) => console.log(await res.json()));
+  const addUsers = () => {
+    setNames([...names, name]);
+    setDobs([...dobs, dob]);
 
-    // clear note 
-    setDate('')
-  }
+    fetch(`http://localhost:3001/add-user?name=${name}&dob=${dob}`)
+      .then(async (res) => console.log(await res.json()))
+
+    setName('');
+    setDob('');
+  };
 
   return (
     <div>
@@ -64,17 +45,16 @@ export default function Home() {
         {num === 1 ? <button
           onClick={
             () => {
-              setHeader("date")
-              setType("date")
+              setHeader("date");
+              setType("date");
               setNum((num) => num + 1);
-              addToNames()
             }
           }
         >Continue</button> : <button
           onClick={
             () => {
-              // r.push('/result')
-              addToDates()
+              r.push('/result');
+              addUsers();
             }
           }
         >Continue</button>}
