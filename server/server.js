@@ -1,40 +1,76 @@
-const express = require('express');
-const cors = require('cors')
+const express = require("express");
+const cors = require("cors");
 var db = require("./create-tables");
 const app = express();
-const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
 
-let names = [];
-let dobs = [];
+app.post("/add-user", (req, res) => {
+  const name = req.body.name;
+  const dob = req.body.dob;
 
-app.get("/add-user", (req, res) => {
-  const name = req.query.name;
-  const dob = req.query.dob;
-
-  if (!name || !dob) return res.end("please provide name");
-  db.run("INSERT INTO UserInfo (FirstName, DOB) VALUES (?, ?)", [name, dob]);
-
-  names.push(name);
-  dobs.push(dob);
-
-  res.json({ message: "everything saved" });
+  // if (!name || !dob) return res.end("please provide name");
+  db.run(
+    "INSERT INTO UserInfo (FirstName, DOB) VALUES (?, ?)",
+    [name, dob],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("values inserted");
+      }
+    }
+  );
 });
 
 app.get("/get-name", (req, res) => {
-  res.json({ names })
+  db.each(
+    "SELECT FirstName FROM UserInfo ORDER BY ID DESC LIMIT 1",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result.FirstName);
+      }
+    }
+  );
+});
+
+app.get("/get-date", (req, res) => {
+  db.each(
+    "SELECT DOB FROM UserInfo ORDER BY ID DESC LIMIT 1",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+        res.send(result.DOB);
+      }
+    }
+  );
 });
 
 app.get("/userinfo", (req, res) => {
   db.each("SELECT * FROM UserInfo", (err, result) => {
     if (err) {
       console.log(err);
-    };
+    }
     console.log(result);
   });
-  res.json({ message: "data shown" })
+  res.end(result);
+});
+
+app.get("/get-signs", (req, res) => {
+  db.each("SELECT * FROM ZodiacSigns", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
 });
 
 // // Route to get all signs info
@@ -46,12 +82,6 @@ app.get("/userinfo", (req, res) => {
 //     res.send(result);
 //   });
 // });
-
-app.get('/get-result', (req, res) => {
-  res.json({ signs })
-});
-
-
 
 //this is just for me for ref
 // Route to get one post
@@ -96,8 +126,6 @@ app.get('/get-result', (req, res) => {
 //   })
 // })
 
-app.listen(PORT, () => {
-  console.log(`Server is running on ＄{PORT}`)
-})
-
-
+app.listen(3001, () => {
+  console.log(`Server is running on 3001`);
+});
