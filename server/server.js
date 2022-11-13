@@ -73,6 +73,59 @@ app.get("/get-signs", (req, res) => {
   });
 });
 
+// // Route to get all signs info
+// app.get("/get-result", (req, res) => {
+//   db.each("SELECT * FROM ZodiacSigns", (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     res.send(result);
+//   });
+// });
+
+//this is just for me for ref
+// Route to get one post
+// app.get("/get-result/id:", (req, res) => {
+
+//   const id = req.params.id;
+//   db.query("SELECT * FROM ZodiacSigns WHERE id = ?", id,
+//     (err, result) => {
+//       if (err) {
+//         console.log(err)
+//       }
+//       res.send(result)
+//     });
+// });
+
+// // Route for creating the post
+// app.post('/api/create', (req, res) => {
+
+//   const sign = req.body.sign;
+//   const src = req.body.src;
+//   const startDate = req.body.startDate;
+//   const endDate = req.body.endDate;
+//   const description = req.body.description;
+
+//   db.query("SELECT * (DateStart, DateEnd, SignName, ImgSrc, Description ) VALUES (?,?,?)", [title, text, username], (err, result) => {
+//     if (err) {
+//       console.log(err)
+//     }
+//     console.log(result);
+//   });
+// })
+
+// // Route to delete a post
+
+// app.delete('/api/delete/:id', (req, res) => {
+//   const id = req.params.id;
+
+//   db.query("DELETE FROM posts WHERE id= ?", id, (err, result) => {
+//     if (err) {
+//       console.log(err)
+//     }
+//   })
+// })
+
 app.listen(3001, () => {
   console.log(`Server is running on 3001`);
 });
