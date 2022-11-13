@@ -12,14 +12,14 @@ db.run(
   `CREATE TABLE IF NOT EXISTS UserInfo (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         FirstName varchar(25),
-        DOB DATE
+        DOB varchar(10)
       )`
 );
 db.run(
   `CREATE TABLE IF NOT EXISTS ZodiacSigns (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        DateStart DATE, 
-        DateEnd DATE,
+        DateStart varchar(25), 
+        DateEnd varchar(25),
         SignName varchar(25),
         ImgSrc varchar(1000),
         Description varchar(1000)
