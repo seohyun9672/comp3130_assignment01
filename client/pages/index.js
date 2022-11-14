@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 
-
 export default function Home() {
   const r = useRouter();
 
@@ -18,11 +17,14 @@ export default function Home() {
       <div className="btncont center">
         <button
           className="begin"
-          onClick={
-            () => r.push({
+          onClick={() =>
+            r.push({
               pathname: "/input",
-              query: "name"
-            })}>Begin</button>
+            })
+          }
+        >
+          Begin
+        </button>
       </div>
     </>
   );

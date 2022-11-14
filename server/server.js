@@ -25,7 +25,7 @@ app.post("/add-user", (req, res) => {
 });
 
 app.get("/get-name", (req, res) => {
-  db.each(
+  db.get(
     "SELECT FirstName FROM UserInfo ORDER BY ID DESC LIMIT 1",
     (err, result) => {
       if (err) {
@@ -39,17 +39,14 @@ app.get("/get-name", (req, res) => {
 });
 
 app.get("/get-date", (req, res) => {
-  db.each(
-    "SELECT DOB FROM UserInfo ORDER BY ID DESC LIMIT 1",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(result);
-        res.send(result.DOB);
-      }
+  db.get("SELECT DOB FROM UserInfo ORDER BY ID DESC LIMIT 1", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result.DOB);
     }
-  );
+  });
 });
 
 // app.get("/userinfo", (req, res) => {
@@ -62,8 +59,8 @@ app.get("/get-date", (req, res) => {
 //   res.end(result);
 // });
 
-app.post("/get-sign", (req, res) => {
-  const SignName = req.body.SignName;
+app.get("/get-sign", (req, res) => {
+  const SignName = req.query.SignName;
   db.each(
     "SELECT * FROM ZodiacSigns WHERE SignName=?",
     [SignName],
@@ -71,9 +68,9 @@ app.post("/get-sign", (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        res.send(result);
+        console.log(result);
       }
-      res.send(result);
-      console.log(result);
     }
   );
 });
