@@ -22,12 +22,13 @@ db.run(
         DateEnd varchar(25),
         SignName varchar(25),
         ImgSrc varchar(1000),
-        Description varchar(1000)
+        Description varchar(1000),
+        UNIQUE(id, DateStart, DateEnd, SignName, ImgSrc, Description)
     )`
 );
 
 db.run(
-  `INSERT INTO ZodiacSigns (SignName, DateStart, DateEnd, ImgSrc, Description)
+  `INSERT OR IGNORE INTO ZodiacSigns (SignName, DateStart, DateEnd, ImgSrc, Description)
   VALUES (
         "Aries",
         "March 21st",

@@ -52,25 +52,30 @@ app.get("/get-date", (req, res) => {
   );
 });
 
-app.get("/userinfo", (req, res) => {
-  db.each("SELECT * FROM UserInfo", (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(result);
-  });
-  res.end(result);
-});
+// app.get("/userinfo", (req, res) => {
+//   db.each("SELECT * FROM UserInfo", (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//   });
+//   res.end(result);
+// });
 
-app.get("/get-signs", (req, res) => {
-  db.each("SELECT * FROM ZodiacSigns", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(result);
+app.post("/get-sign", (req, res) => {
+  const SignName = req.body.SignName;
+  db.each(
+    "SELECT * FROM ZodiacSigns WHERE SignName=?",
+    [SignName],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+      }
       res.send(result);
+      console.log(result);
     }
-  });
+  );
 });
 
 // // Route to get all signs info
