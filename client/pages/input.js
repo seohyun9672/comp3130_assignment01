@@ -1,64 +1,65 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
-  const [dob, setDob] = useState()
-  const [name, setName] = useState('');
-  const [type, setType] = useState('text');
-  const [num, setNum] = useState(1);
-  const [names, setNames] = useState([]);
-  const [dobs, setDobs] = useState([]);
-  const [header, setHeader] = useState("name")
-
+  const [dob, setDob] = useState("");
+  const [name, setName] = useState("");
   const r = useRouter();
 
-  useEffect(() => {
-    setType("text");
-  }, []);
-
-  const updateName = (e) => {
-    setName(e.target.value);
-  };
-
-  const updateDate = (e) => {
-    setDob(e.target.value);
-    console.log(e.target.value);
-  };
-
-  const addUsers = () => {
-    setNames([...names, name]);
-    setDobs([...dobs, dob]);
-
-    fetch(`http://localhost:3001/add-user?name=${name}&dob=${dob}`)
-      .then(async (res) => console.log(await res.json()))
-
-    setName('');
-    setDob('');
+  const addUser = () => {
+    Axios.post("http://localhost:3001/add-user", { name: name, dob: dob }).then(
+      () => {
+        console.log(name + dob);
+      }
+    );
   };
 
   return (
     <div>
-      <h1>Enter your {header}</h1>
-      <input type={type} value={name} onChange={num === 1 ? updateName : updateDate} />
-      <div>
-        <button onClick={() => r.back()}>Back</button>
-        {num === 1 ? <button
-          onClick={
-            () => {
-              setHeader("date");
-              setType("date");
-              setNum((num) => num + 1);
-            }
-          }
-        >Continue</button> : <button
-          onClick={
-            () => {
-              r.push('/result');
-              addUsers();
-            }
-          }
-        >Continue</button>}
+      <div className="container start">
+        <h1> Enter your Name</h1>
+        <div className="inputcont">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <h1> Enter your Birthdate</h1>
+        <div className="inputcont">
+          <input
+            type="date"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+          />
+        </div>
+        <div className="btncont space">
+          <div>
+            <FontAwesomeIcon icon={faChevronLeft} color="white" />
+            <button className="back" onClick={() => r.back()}>
+              Back
+            </button>
+          </div>
+          <div>
+            <button
+              className="continue"
+              onClick={() => {
+                r.push("/result");
+                addUser();
+              }}
+            >
+              Continue
+            </button>
+            <FontAwesomeIcon icon={faChevronRight} color="white" />
+          </div>
+        </div>
       </div>
     </div>
   );
-};
+}

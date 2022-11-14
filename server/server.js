@@ -25,13 +25,13 @@ app.post("/add-user", (req, res) => {
 });
 
 app.get("/get-name", (req, res) => {
-  db.each(
+  db.get(
     "SELECT FirstName FROM UserInfo ORDER BY ID DESC LIMIT 1",
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(result);
+        // console.log(result);
         res.send(result.FirstName);
       }
     }
@@ -39,38 +39,40 @@ app.get("/get-name", (req, res) => {
 });
 
 app.get("/get-date", (req, res) => {
-  db.each(
-    "SELECT DOB FROM UserInfo ORDER BY ID DESC LIMIT 1",
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(result);
-        res.send(result.DOB);
-      }
-    }
-  );
-});
-
-app.get("/userinfo", (req, res) => {
-  db.each("SELECT * FROM UserInfo", (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(result);
-  });
-  res.end(result);
-});
-
-app.get("/get-signs", (req, res) => {
-  db.each("SELECT * FROM ZodiacSigns", (err, result) => {
+  db.get("SELECT DOB FROM UserInfo ORDER BY ID DESC LIMIT 1", (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(result);
-      res.send(result);
+      // console.log(result);
+      res.send(result.DOB);
     }
   });
+});
+
+// app.get("/userinfo", (req, res) => {
+//   db.each("SELECT * FROM UserInfo", (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//   });
+//   res.end(result);
+// });
+
+app.get("/get-sign", (req, res) => {
+  const sign = req.query.sign;
+  db.get(
+    "SELECT * FROM ZodiacSigns WHERE SignName=?",
+    [sign],
+    (err, result) => {
+      if (err || result === undefined) {
+        console.log(err);
+      } else {
+        res.send(result);
+        return console.log(result);
+      }
+    }
+  );
 });
 
 // // Route to get all signs info
