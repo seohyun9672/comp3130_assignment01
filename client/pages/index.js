@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <div className="container center">
         <div className="imgcont">
-          <img src="/windRose.svg" />
+          <img src="/windRose.svg" className="rose"/>
         </div>
         <div className="textcont center">
           <h1>Star Wheel</h1>
