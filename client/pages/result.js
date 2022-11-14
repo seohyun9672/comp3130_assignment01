@@ -1,9 +1,11 @@
-import { useContext, useEffect, useRouter, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Axios from "axios";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 export default function Result() {
   const [sign, setSign] = useState("");
-  const [allSigns, setAllSigns] = useState("");
+  // const [allSigns, setAllSigns] = useState("");
 
   // const [names, setNames] = useState([]);
   const [name, setName] = useState("");
@@ -13,7 +15,7 @@ export default function Result() {
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
 
-  // const r = useRouter();
+  const r = useRouter();
 
   // useEffect(() => {
   //   // get current names from backend
@@ -37,6 +39,7 @@ export default function Result() {
 
   const dateNum = dob.replaceAll("-", "");
   const monthDay = dateNum.slice(-4);
+
   useEffect(() => {
     if (monthDay >= 321 && monthDay <= 419) {
       setSign("Aries");
@@ -89,18 +92,25 @@ export default function Result() {
   }, []);
 
   return (
-    <div>
-      <h1>{name},</h1>
-      <div>
-        <h1>You are a(n) {sign}!</h1>
-        <h2>
-          {dateStart} - {dateEnd}
-        </h2>
-        <img src={img}></img>
-        <div>{desc}</div>
-        <div></div>
+    <div className="container start gap">
+      <div className="btncont">
+        <FontAwesomeIcon
+          size="2x"
+          color="white"
+          icon={faArrowAltCircleLeft}
+          onClick={() => {
+            r.push("/")
+          }} />
       </div>
-      ;
+      <div className="textcont">
+        <h1>{name}</h1>
+        <h1>You are a(n) {sign}</h1>
+      </div>
+      <div className="imgcont center">
+        <img src={img} />
+      </div>
+      <div className="zodiac-date"> {dateStart} - {dateEnd}</div>
+      <p>{desc}</p>
     </div>
-  );
-}
+  )
+};

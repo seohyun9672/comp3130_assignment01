@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const [dob, setDob] = useState("");
@@ -14,6 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     setType("text");
+    setNum(1);
   }, []);
 
   const updateName = (e) => {
@@ -40,35 +43,50 @@ export default function Home() {
     });
   };
 
-  // const addUsers = () => {
-  //   setNames([...names, name]);
-  //   setDobs([...dobs, dob]);
-
-  //   fetch(`http://localhost:3001/add-user?name=${name}&dob=${dob}`).then(
-  //     async (res) => console.log(await res.json())
-  //   );
-
-  //   setName("");
-  //   setDob("");
-  // };
-
   return (
     <div>
-      <h1>Enter your {header}</h1>
-      <input type="text" value={name} onChange={updateName} />
-      <input type="date" value={dob} onChange={updateDate} />
-      <div>
-        <button onClick={() => r.back()}>Back</button>
-        <button
-          onClick={() => {
-            r.push("/result");
-            addUser();
-            getName();
-            // addUsers();
-          }}
-        >
-          Continue
-        </button>
+      <div className="container start">
+        <h1> Enter your {header}</h1>
+        <div className="inputcont">
+          {
+            num === 1 && <input type="text" value={name} onChange={updateName} />
+          }
+          {
+            num === 2 && <input type="date" value={dob} onChange={updateDate} />
+          }
+        </div>
+        <div className="btncont space">
+          <div>
+            <FontAwesomeIcon icon={faChevronLeft} color="white" />
+            <button className="back" onClick={() => r.back()}>Back</button>
+          </div>
+          <div>
+            {
+              num === 1 && <button
+                className="continue"
+                onClick={() => r.push({
+                  pathname: "/input",
+                  query: "date"
+                },
+                  setHeader("date"),
+                  setNum(num + 1)
+                )}>Continue</button>
+            }
+            {
+              num === 2 && <button
+                className="continue"
+                onClick={() => {
+                  r.push("/result");
+                  addUser();
+                }}
+              >
+                Continue
+              </button>
+            }
+            <FontAwesomeIcon icon={faChevronRight} color="white" />
+
+          </div>
+        </div>
       </div>
     </div>
   );
