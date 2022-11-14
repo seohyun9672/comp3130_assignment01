@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import Axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+
+
+
 export default function Result() {
   const [sign, setSign] = useState("");
   // const [allSigns, setAllSigns] = useState("");
@@ -100,7 +103,7 @@ export default function Result() {
           icon={faArrowAltCircleLeft}
           onClick={() => {
             r.push("/")
-          }} />
+          }} className="backbtn"/>
       </div>
       <div className="textcont">
         <h1>{name}</h1>
