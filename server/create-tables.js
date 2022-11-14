@@ -1,13 +1,8 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./db");
 
-// make tables
-// db.run(
-//   'DROP TABLE UserInfo'
-// );
-// db.run(
-//   'DROP TABLE ZodiacSigns'
-// );
+// db.run("DROP TABLE UserInfo");
+// db.run("DROP TABLE ZodiacSigns");
 db.run(
   `CREATE TABLE IF NOT EXISTS UserInfo (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
