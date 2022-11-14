@@ -8,6 +8,10 @@ export default function Result() {
   // const [names, setNames] = useState([]);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [desc, setDesc] = useState("");
+  const [img, setImg] = useState("");
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
 
   // const r = useRouter();
 
@@ -22,18 +26,14 @@ export default function Result() {
   // });
   useEffect(() => {
     Axios.get("http://localhost:3001/get-name").then((response) => {
-      // console.log(response);
+      console.log(response);
       setName(response.data);
     });
     Axios.get("http://localhost:3001/get-date").then((response) => {
       // console.log(response);
       setDob(response.data);
     });
-    Axios.get("http://localhost:3001/get-signs").then((response) => {
-      // console.log(response);
-      setAllSigns(response.data);
-    });
-  });
+  }, []);
 
   const dateNum = dob.replaceAll("-", "");
   const monthDay = dateNum.slice(-4);
@@ -77,19 +77,27 @@ export default function Result() {
   });
 
   useEffect(() => {
-    // Axios.get("http://localhost:3001/get-signs").then((response) => {
-    //   setAllSigns(response);
-    // });
-    // let signData = allSigns.find((o) => o.SignName === sign);
-  });
+    Axios.post("http://localhost:3001/get-sign", { SignName: sign }).then(
+      (response) => {
+        console.log(response);
+        setDesc(response.data.Description);
+        setDateStart(response.data.DateStart);
+        setDateEnd(response.data.DateEnd);
+        setImg(response.data.ImgSrc);
+      }
+    );
+  }, []);
 
   return (
     <div>
       <h1>{name},</h1>
       <div>
         <h1>You are a(n) {sign}!</h1>
-        <img src="/"></img>
-        <div></div>
+        <h2>
+          {dateStart} - {dateEnd}
+        </h2>
+        <img src={img}></img>
+        <div>{desc}</div>
         <div></div>
       </div>
       ;
