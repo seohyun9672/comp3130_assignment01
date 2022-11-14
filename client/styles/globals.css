@@ -70,7 +70,8 @@ h2 {
   justify-content: space-between;
 }
 
-button.begin, button.home {
+button.begin,
+button.home {
   background-color: #f1f1f1;
   border: none;
   color: #1e1e1e;
@@ -115,6 +116,9 @@ input {
 input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 3px;
   color: #f1f1f1;
+}
+input[type="text"] {
+  text-transform: capitalize;
 }
 
 .hidden {
