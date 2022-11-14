@@ -31,7 +31,7 @@ app.get("/get-name", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(result);
+        // console.log(result);
         res.send(result.FirstName);
       }
     }
@@ -43,7 +43,7 @@ app.get("/get-date", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(result);
+      // console.log(result);
       res.send(result.DOB);
     }
   });
@@ -60,16 +60,16 @@ app.get("/get-date", (req, res) => {
 // });
 
 app.get("/get-sign", (req, res) => {
-  const SignName = req.query.SignName;
-  db.each(
+  const sign = req.query.sign;
+  db.get(
     "SELECT * FROM ZodiacSigns WHERE SignName=?",
-    [SignName],
+    [sign],
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
         res.send(result);
-        console.log(result);
+        return console.log(result);
       }
     }
   );

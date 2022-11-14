@@ -81,17 +81,17 @@ export default function Result() {
       setSign("Pisces");
       setHeader("You are a Pisces");
     }
-  }, []);
+  });
 
   useEffect(() => {
     Axios.get("http://localhost:3001/get-sign", {
-      params: { SignName: sign },
+      params: { sign: sign },
     }).then((response) => {
-      console.log(response);
       setDesc(response.data.Description);
       setDateStart(response.data.DateStart);
       setDateEnd(response.data.DateEnd);
       setImg(response.data.ImgSrc);
+      console.log(response);
     });
   }, []);
 
