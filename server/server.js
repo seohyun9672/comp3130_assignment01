@@ -64,16 +64,16 @@ app.get("/get-date", (req, res) => {
 
 app.post("/get-sign", (req, res) => {
   const SignName = req.body.SignName;
+  const ImgSrc = req.body.ImgSrc;
   db.each(
-    "SELECT * FROM ZodiacSigns WHERE SignName=?",
-    [SignName],
+    "SELECT ImgSrc FROM ZodiacSigns",
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
       }
-      res.send(result);
-      console.log(result);
+      res.send(result.ImgSrc);
+      console.log(result.ImgSrc);
     }
   );
 });

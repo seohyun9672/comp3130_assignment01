@@ -32,9 +32,14 @@ export default function Result() {
       setName(response.data);
     });
     Axios.get("http://localhost:3001/get-date").then((response) => {
-      // console.log(response);
+      //console.log(response);
       setDob(response.data);
     });
+    // Axios.get("http://localhost:3001/get-sign").then((response) => {
+    //   //console.log(response);
+    //   setImg(response.data.ImgSrc);
+    //   setDesc(response.data.Description)
+    // });
   }, []);
 
   const dateNum = dob.replaceAll("-", "");
