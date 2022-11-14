@@ -65,7 +65,7 @@ app.get("/get-sign", (req, res) => {
     "SELECT * FROM ZodiacSigns WHERE SignName=?",
     [sign],
     (err, result) => {
-      if (err) {
+      if (err || result === undefined) {
         console.log(err);
       } else {
         res.send(result);
